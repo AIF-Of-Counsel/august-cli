@@ -1,0 +1,39 @@
+{
+  "manifest_version": "0.3",
+  "name": "august-pp-mcp",
+  "display_name": "August",
+  "version": "4.18.1",
+  "description": "The August API provides programmatic access to legal document intelligence and research workflows.",
+  "author": {
+    "name": "CLI Printing Press"
+  },
+  "license": "Apache-2.0",
+  "server": {
+    "type": "binary",
+    "entry_point": "bin/august-pp-mcp",
+    "mcp_config": {
+      "command": "${__dirname}/bin/august-pp-mcp",
+      "args": [],
+      "env": {
+        "AUGUST_BEARER_AUTH": "${user_config.august_bearer_auth}"
+      }
+    }
+  },
+  "user_config": {
+    "august_bearer_auth": {
+      "type": "string",
+      "title": "AUGUST_BEARER_AUTH",
+      "description": "Sets AUGUST_BEARER_AUTH for the August MCP server.",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=1.0.0",
+    "platforms": [
+      "darwin",
+      "linux",
+      "win32"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-28T03:02:20.448291Z",
+  "printing_press_version": "4.18.1",
+  "api_name": "august",
+  "display_name": "August",
+  "cli_name": "august-pp-cli",
+  "owner": "vera",
+  "printer": "vera-clawbot",
+  "printer_name": "Vera",
+  "spec_path": "SPEC.md",
+  "spec_format": "openapi3",
+  "spec_checksum": "sha256:a8cd445de635f22b86194389d2bb1702131bf0692c4ff81d419e4887fe463256",
+  "run_id": "20260528-030220",
+  "description": "The August API provides programmatic access to legal document intelligence and research workflows.",
+  "mcp_binary": "august-pp-mcp",
+  "mcp_tool_count": 11,
+  "mcp_ready": "full",
+  "api_version": "1.0.0",
+  "auth_type": "bearer_token",
+  "auth_env_vars": [
+    "AUGUST_BEARER_AUTH"
+  ]
+}

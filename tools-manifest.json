@@ -1,0 +1,268 @@
+{
+  "api_name": "august",
+  "base_url": "https://api.august.law",
+  "description": "The August API provides programmatic access to legal document intelligence and research workflows.\n\nNon-Obvious Insight: August isn't just a document search tool. It's a legal knowledge graph.\nEvery file, folder, and query is a signal about how a legal team structures, retrieves, and\ngenerates work product — enabling compound insights no single API wrapper could produce.",
+  "mcp_ready": "full",
+  "http_transport": "standard",
+  "auth": {
+    "type": "bearer_token",
+    "header": "Authorization",
+    "env_vars": [
+      "AUGUST_BEARER_AUTH"
+    ],
+    "env_var_specs": [
+      {
+        "name": "AUGUST_BEARER_AUTH",
+        "kind": "per_call",
+        "required": true,
+        "sensitive": true,
+        "inferred": true
+      }
+    ]
+  },
+  "required_headers": [],
+  "tools": [
+    {
+      "name": "files_get-download-urls",
+      "description": "Generate presigned URLs for downloading one or more files. Required: doc_ids. Optional: project_id, ttl (default: 3600), use_pdf (default: false). Returns the new DownloadResponse.",
+      "method": "POST",
+      "path": "/api/v1/files/download",
+      "params": [
+        {
+          "name": "doc_ids",
+          "type": "string_csv_array",
+          "location": "body",
+          "description": "Document IDs to download",
+          "required": true
+        },
+        {
+          "name": "project_id",
+          "type": "string",
+          "location": "body",
+          "description": "Optional project scope for the download"
+        },
+        {
+          "name": "ttl",
+          "type": "int",
+          "location": "body",
+          "description": "URL time-to-live in seconds"
+        },
+        {
+          "name": "use_pdf",
+          "type": "bool",
+          "location": "body",
+          "description": "Download as PDF instead of original format"
+        }
+      ]
+    },
+    {
+      "name": "folders_contents_get-folder",
+      "description": "Returns the contents (files and subfolders) of a specific folder. Required: folder_id. Optional: offset (default: 0), limit (default: 100).",
+      "method": "GET",
+      "path": "/api/v1/folders/{folder_id}/contents",
+      "params": [
+        {
+          "name": "folder_id",
+          "type": "string",
+          "location": "path",
+          "description": "Folder id",
+          "required": true
+        },
+        {
+          "name": "offset",
+          "type": "int",
+          "location": "query",
+          "description": "Offset"
+        },
+        {
+          "name": "limit",
+          "type": "int",
+          "location": "query",
+          "description": "Limit"
+        }
+      ]
+    },
+    {
+      "name": "folders_tree_get-folder",
+      "description": "Returns the full folder tree starting from a specific folder. Required: folder_id.",
+      "method": "GET",
+      "path": "/api/v1/folders/{folder_id}/tree",
+      "params": [
+        {
+          "name": "folder_id",
+          "type": "string",
+          "location": "path",
+          "description": "Folder id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "global_search_search-global",
+      "description": "Full-text search across all accessible projects. Required: q. Optional: offset (default: 0), limit (default: 50). Returns the SearchResults.",
+      "method": "GET",
+      "path": "/api/v1/search",
+      "params": [
+        {
+          "name": "q",
+          "type": "string",
+          "location": "query",
+          "description": "Q",
+          "required": true
+        },
+        {
+          "name": "offset",
+          "type": "int",
+          "location": "query",
+          "description": "Offset"
+        },
+        {
+          "name": "limit",
+          "type": "int",
+          "location": "query",
+          "description": "Limit"
+        }
+      ]
+    },
+    {
+      "name": "project_search_search-project",
+      "description": "Full-text search within a specific project's documents and files. Required: project_id, q. Optional: offset (default: 0), limit (default: 50). Returns the SearchResults.",
+      "method": "GET",
+      "path": "/api/v1/projects/{project_id}/search",
+      "params": [
+        {
+          "name": "project_id",
+          "type": "string",
+          "location": "path",
+          "description": "Project id",
+          "required": true
+        },
+        {
+          "name": "q",
+          "type": "string",
+          "location": "query",
+          "description": "Search query string",
+          "required": true
+        },
+        {
+          "name": "offset",
+          "type": "int",
+          "location": "query",
+          "description": "Offset"
+        },
+        {
+          "name": "limit",
+          "type": "int",
+          "location": "query",
+          "description": "Limit"
+        }
+      ]
+    },
+    {
+      "name": "projects_list",
+      "description": "Returns all projects the authenticated user has access to.",
+      "method": "GET",
+      "path": "/api/v1/projects",
+      "params": []
+    },
+    {
+      "name": "projects_members_list-project",
+      "description": "Returns all members of a specific project. Required: project_id.",
+      "method": "GET",
+      "path": "/api/v1/projects/{project_id}/members",
+      "params": [
+        {
+          "name": "project_id",
+          "type": "string",
+          "location": "path",
+          "description": "Project id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "queries_submit-query",
+      "description": "Submit a legal research or document analysis query in Genius Mode. The query is processed asynchronously; poll status for completion. Required: query. Optional: file_ids, folder_ids, mode (default: research) (plus 1 more). Returns the new QuerySubmitResponse.",
+      "method": "POST",
+      "path": "/api/v1/queries",
+      "params": [
+        {
+          "name": "file_ids",
+          "type": "string_csv_array",
+          "location": "body",
+          "description": "File/document IDs to include in the query context"
+        },
+        {
+          "name": "folder_ids",
+          "type": "string_csv_array",
+          "location": "body",
+          "description": "Folder IDs to scope the query to"
+        },
+        {
+          "name": "mode",
+          "type": "string",
+          "location": "body",
+          "description": "Query processing mode"
+        },
+        {
+          "name": "project_id",
+          "type": "string",
+          "location": "body",
+          "description": "Project ID to scope the query to"
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "location": "body",
+          "description": "The natural language or structured query",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "queries_files_get-query",
+      "description": "Retrieve files generated by a completed query. Required: query_id. Returns the QueryFiles.",
+      "method": "GET",
+      "path": "/api/v1/queries/{query_id}/files",
+      "params": [
+        {
+          "name": "query_id",
+          "type": "string",
+          "location": "path",
+          "description": "Query id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "queries_result_get-query",
+      "description": "Retrieve the completed result of a processed query. Required: query_id. Returns the QueryResult.",
+      "method": "GET",
+      "path": "/api/v1/queries/{query_id}/result",
+      "params": [
+        {
+          "name": "query_id",
+          "type": "string",
+          "location": "path",
+          "description": "Query id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "queries_status_get-query",
+      "description": "Poll the processing status of a submitted query. Required: query_id. Returns the QueryStatus.",
+      "method": "GET",
+      "path": "/api/v1/queries/{query_id}/status",
+      "params": [
+        {
+          "name": "query_id",
+          "type": "string",
+          "location": "path",
+          "description": "Query id",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

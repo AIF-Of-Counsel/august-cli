@@ -1,0 +1,22 @@
+# Binaries
+august-pp-cli
+august-pp-mcp
+*.exe
+
+# Build artifacts
+build/stage/
+build/*.mcpb
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+
+# Local config (may contain secrets)
+*.local.toml
+
+# Go
+/vendor/

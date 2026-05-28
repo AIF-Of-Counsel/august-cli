@@ -1,0 +1,51 @@
+version: 2
+project_name: august-pp-cli
+changelog:
+  disable: true
+builds:
+  - id: august-pp-cli
+    main: ./cmd/august-pp-cli
+    binary: august-pp-cli
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X august-pp-cli/internal/cli.version={{ .Version }}
+    targets:
+      - darwin_amd64
+      - darwin_arm64
+      - linux_amd64
+      - linux_arm64
+      - windows_amd64
+      - windows_arm64
+  - id: august-pp-mcp
+    main: ./cmd/august-pp-mcp
+    binary: august-pp-mcp
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+    targets:
+      - darwin_amd64
+      - darwin_arm64
+      - linux_amd64
+      - linux_arm64
+      - windows_amd64
+      - windows_arm64
+archives:
+  - formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+checksum:
+  name_template: checksums.txt
+brews:
+  - name: august-pp-cli
+    repository:
+      owner: vera
+      name: homebrew-tap
+    homepage: "https://github.com/vera/august-pp-cli"
+    description: "The August API provides programmatic access to legal document intelligence and research workflows."
+    install: |
+      bin.install "august-pp-cli"
+      bin.install "august-pp-mcp"
