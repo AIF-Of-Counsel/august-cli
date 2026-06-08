@@ -1,4 +1,4 @@
-module august-pp-cli
+module github.com/AIF-Of-Counsel/august-cli
 
 go 1.26.3
 

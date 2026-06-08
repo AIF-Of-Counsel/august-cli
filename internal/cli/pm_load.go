@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"sort"
 
-	"august-pp-cli/internal/store"
+	"github.com/AIF-Of-Counsel/august-cli/internal/store"
 	"github.com/spf13/cobra"
 )
 

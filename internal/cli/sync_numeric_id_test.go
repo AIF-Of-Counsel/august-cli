@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"august-pp-cli/internal/store"
+	"github.com/AIF-Of-Counsel/august-cli/internal/store"
 )
 
 func TestSyncSingleObject_PreservesLargeIntegerResourceIDs(t *testing.T) {

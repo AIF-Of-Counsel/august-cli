@@ -13,12 +13,12 @@ import (
 	"strings"
 	"time"
 
-	"august-pp-cli/internal/cli"
-	"august-pp-cli/internal/client"
-	"august-pp-cli/internal/cliutil"
-	"august-pp-cli/internal/config"
-	"august-pp-cli/internal/mcp/cobratree"
-	"august-pp-cli/internal/store"
+	"github.com/AIF-Of-Counsel/august-cli/internal/cli"
+	"github.com/AIF-Of-Counsel/august-cli/internal/client"
+	"github.com/AIF-Of-Counsel/august-cli/internal/cliutil"
+	"github.com/AIF-Of-Counsel/august-cli/internal/config"
+	"github.com/AIF-Of-Counsel/august-cli/internal/mcp/cobratree"
+	"github.com/AIF-Of-Counsel/august-cli/internal/store"
 	mcplib "github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
 )

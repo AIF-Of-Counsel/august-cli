@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"august-pp-cli/internal/config"
+	"github.com/AIF-Of-Counsel/august-cli/internal/config"
 )
 
 // recordingRoundTripper counts how many times its RoundTrip method is

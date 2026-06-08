@@ -1,7 +1,9 @@
-# Binaries
-august-pp-cli
-august-pp-mcp
+# Binaries (anchored to repo root so cmd/august-pp-cli/ source is NOT ignored)
+/august-pp-cli
+/august-pp-mcp
+/bin/
 *.exe
+.env
 
 # Build artifacts
 build/stage/

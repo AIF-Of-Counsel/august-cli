@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"os"
 
-	"august-pp-cli/internal/cliutil"
+	"github.com/AIF-Of-Counsel/august-cli/internal/cliutil"
 	"github.com/spf13/cobra"
 )
 

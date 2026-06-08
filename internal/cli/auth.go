@@ -4,8 +4,8 @@
 package cli
 
 import (
-	"august-pp-cli/internal/cliutil"
-	"august-pp-cli/internal/config"
+	"github.com/AIF-Of-Counsel/august-cli/internal/cliutil"
+	"github.com/AIF-Of-Counsel/august-cli/internal/config"
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
