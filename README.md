@@ -72,24 +72,24 @@ august projects
 
 ### projects
 - `august projects list` — List all accessible projects
-- `august projects members <project_id>` — List members of a project
+- `august projects members list-project <project_id>` — List members of a project
 
 ### search
 - `august global-search --q "term"` — Global full-text search
 - `august project-search <project_id> --q "term"` — Search within a project
 
 ### folders
-- `august folders contents <folder_id>` — Get folder contents
-- `august folders tree <folder_id>` — Get full folder tree
+- `august folders contents get-folder <folder_id>` — Get folder contents
+- `august folders tree get-folder <folder_id>` — Get full folder tree
 
 ### files
-- `august files download --doc-ids <id1,id2> [--use-pdf] [--ttl 3600]` — Get presigned download URLs
+- `august files --doc-ids <id1,id2> [--use-pdf] [--ttl 3600]` — Get presigned download URLs
 
 ### queries (Genius Mode)
-- `august queries submit --query "legal question" [--project-id <id>] [--mode research|analysis|draft|review]` — Submit a query
-- `august queries status <query_id>` — Poll query status
-- `august queries result <query_id>` — Get completed result
-- `august queries files <query_id>` — Get generated files
+- `august queries --query "legal question" [--project-id <id>] [--folder-ids <ids>] [--file-ids <ids>] [--mode deep_research|cowork_agent|auto]` — Submit a query (async; defaults to `deep_research`)
+- `august queries status get-query <query_id>` — Poll query status
+- `august queries result get-query <query_id>` — Get completed result
+- `august queries files get-query <query_id>` — Get generated files (work products)
 
 ## Auth
 

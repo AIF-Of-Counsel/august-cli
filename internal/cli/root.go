@@ -12,8 +12,8 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"august-pp-cli/internal/client"
-	"august-pp-cli/internal/config"
+	"github.com/AIF-Of-Counsel/august-cli/internal/client"
+	"github.com/AIF-Of-Counsel/august-cli/internal/config"
 	"github.com/spf13/cobra"
 )
 

@@ -17,8 +17,8 @@ import (
 	"strings"
 	"time"
 
-	"august-pp-cli/internal/client"
-	"august-pp-cli/internal/store"
+	"github.com/AIF-Of-Counsel/august-cli/internal/client"
+	"github.com/AIF-Of-Counsel/august-cli/internal/store"
 )
 
 const networkFallbackReason = "api_unreachable"

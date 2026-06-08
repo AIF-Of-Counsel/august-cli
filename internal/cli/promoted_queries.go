@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"os"
 
-	"august-pp-cli/internal/cliutil"
+	"github.com/AIF-Of-Counsel/august-cli/internal/cliutil"
 	"github.com/spf13/cobra"
 )
 
@@ -55,7 +55,10 @@ func newQueriesPromotedCmd(flags *rootFlags) *cobra.Command {
 				body["folder_ids"] = cliutil.SplitCSV(bodyFolderIds)
 			}
 			if bodyMode != "" {
-				body["mode"] = bodyMode
+				// The API expects mode as a list (e.g. ["deep_research"]),
+				// not a bare string. SplitCSV also lets a caller pass
+				// multiple modes, matching the documented list contract.
+				body["mode"] = cliutil.SplitCSV(bodyMode)
 			}
 			if bodyProjectId != "" {
 				body["project_id"] = bodyProjectId
@@ -124,7 +127,7 @@ func newQueriesPromotedCmd(flags *rootFlags) *cobra.Command {
 	}
 	cmd.Flags().StringVar(&bodyFileIds, "file-ids", "", "File/document IDs to include in the query context")
 	cmd.Flags().StringVar(&bodyFolderIds, "folder-ids", "", "Folder IDs to scope the query to")
-	cmd.Flags().StringVar(&bodyMode, "mode", "research", "Query processing mode")
+	cmd.Flags().StringVar(&bodyMode, "mode", "deep_research", "Query processing mode(s), comma-separated: deep_research, cowork_agent, auto")
 	cmd.Flags().StringVar(&bodyProjectId, "project-id", "", "Project ID to scope the query to")
 	cmd.Flags().StringVar(&bodyQuery, "query", "", "The natural language or structured query")
 

@@ -4,8 +4,8 @@
 package cli
 
 import (
-	"august-pp-cli/internal/client"
-	"august-pp-cli/internal/cliutil"
+	"github.com/AIF-Of-Counsel/august-cli/internal/client"
+	"github.com/AIF-Of-Counsel/august-cli/internal/cliutil"
 	"bytes"
 	"context"
 	"encoding/json"
