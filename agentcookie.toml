@@ -2,8 +2,8 @@
 # See docs/spec-agentcookie-secrets-bus-v2-adoption.md
 schema_version = 2
 name = "august-pp-cli"
-display_name = "August"
-description = "The August API provides programmatic access to legal document intelligence and research workflows."
+display_name = "August Public"
+description = "Programmatic access to August. Authenticate every request with a Clerk API key: `Authorization: Bearer ak_...`."
 project_kind = "cli"
 
 [secrets.file]
@@ -13,4 +13,4 @@ path = "~/.config/august-pp-cli/config.toml"
 default = false
 
 [sync.keys]
-AUGUST_BEARER_AUTH = true
+AUGUST_AUTHORIZATION = true
