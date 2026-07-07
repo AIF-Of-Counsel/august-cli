@@ -2,8 +2,8 @@
   "manifest_version": "0.3",
   "name": "august-pp-mcp",
   "display_name": "August",
-  "version": "4.18.1",
-  "description": "The August API provides programmatic access to legal document intelligence and research workflows.",
+  "version": "0.0.0",
+  "description": "Programmatic access to August. Authenticate every request with a Clerk API key: `Authorization: Bearer ak_...`.",
   "author": {
     "name": "CLI Printing Press"
   },
@@ -15,15 +15,15 @@
       "command": "${__dirname}/bin/august-pp-mcp",
       "args": [],
       "env": {
-        "AUGUST_BEARER_AUTH": "${user_config.august_bearer_auth}"
+        "AUGUST_AUTHORIZATION": "${user_config.august_authorization}"
       }
     }
   },
   "user_config": {
-    "august_bearer_auth": {
+    "august_authorization": {
       "type": "string",
-      "title": "AUGUST_BEARER_AUTH",
-      "description": "Sets AUGUST_BEARER_AUTH for the August MCP server.",
+      "title": "AUGUST_AUTHORIZATION",
+      "description": "Sets AUGUST_AUTHORIZATION for the August Public MCP server.",
       "sensitive": true,
       "required": true
     }

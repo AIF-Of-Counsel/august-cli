@@ -9,7 +9,7 @@ builds:
     env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w -X github.com/AIF-Of-Counsel/august-cli/internal/cli.version={{ .Version }}
+      - -s -w -X august-pp-cli/internal/cli.version={{ .Version }}
     targets:
       - darwin_amd64
       - darwin_arm64
@@ -23,7 +23,7 @@ builds:
     env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w
+      - -s -w -X main.version={{ .Version }}
     targets:
       - darwin_amd64
       - darwin_arm64
@@ -42,10 +42,10 @@ checksum:
 brews:
   - name: august-pp-cli
     repository:
-      owner: AIF-Of-Counsel
+      owner: justlyai
       name: homebrew-tap
-    homepage: "https://github.com/AIF-Of-Counsel/august-cli"
-    description: "The August API provides programmatic access to legal document intelligence and research workflows."
+    homepage: "https://github.com/justlyai/august-pp-cli"
+    description: "Programmatic access to August. Authenticate every request with a Clerk API key: `Authorization: Bearer ak_...`."
     install: |
       bin.install "august-pp-cli"
       bin.install "august-pp-mcp"

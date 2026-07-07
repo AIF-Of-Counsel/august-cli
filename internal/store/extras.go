@@ -1,4 +1,4 @@
-// Copyright 2026 vera. Licensed under Apache-2.0. See LICENSE.
+// Copyright 2026 justlyai and contributors. Licensed under Apache-2.0. See LICENSE.
 
 package store
 

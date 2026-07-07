@@ -1,18 +1,18 @@
 {
   "api_name": "august",
-  "base_url": "https://api.august.law",
-  "description": "The August API provides programmatic access to legal document intelligence and research workflows.\n\nNon-Obvious Insight: August isn't just a document search tool. It's a legal knowledge graph.\nEvery file, folder, and query is a signal about how a legal team structures, retrieves, and\ngenerates work product — enabling compound insights no single API wrapper could produce.",
+  "base_url": "https://app.august.law/api/v1",
+  "description": "Programmatic access to August. Authenticate every request with a Clerk API key: `Authorization: Bearer ak_...`.",
   "mcp_ready": "full",
   "http_transport": "standard",
   "auth": {
     "type": "bearer_token",
     "header": "Authorization",
     "env_vars": [
-      "AUGUST_BEARER_AUTH"
+      "AUGUST_AUTHORIZATION"
     ],
     "env_var_specs": [
       {
-        "name": "AUGUST_BEARER_AUTH",
+        "name": "AUGUST_AUTHORIZATION",
         "kind": "per_call",
         "required": true,
         "sensitive": true,
@@ -23,243 +23,801 @@
   "required_headers": [],
   "tools": [
     {
-      "name": "files_get-download-urls",
-      "description": "Generate presigned URLs for downloading one or more files. Required: doc_ids. Optional: project_id, ttl (default: 3600), use_pdf (default: false). Returns the new DownloadResponse.",
+      "name": "chats_by-id",
+      "description": "Get a chat thread. Required: chatId. Returns the ChatsByIdResponse.",
+      "method": "GET",
+      "path": "/chats/{chatId}",
+      "params": [
+        {
+          "name": "chatId",
+          "type": "string",
+          "location": "path",
+          "description": "Chat id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "chats_cancel",
+      "description": "Cancels a running or pending question. No-op if already in a terminal state. `question_id` is the chat_questions id returned by POST /chats. Required: question_id. Returns the new ChatsCancelResponse.",
       "method": "POST",
-      "path": "/api/v1/files/download",
+      "path": "/chats/questions/{question_id}/cancel",
       "params": [
         {
-          "name": "doc_ids",
-          "type": "string_csv_array",
-          "location": "body",
-          "description": "Document IDs to download",
-          "required": true
-        },
-        {
-          "name": "project_id",
-          "type": "string",
-          "location": "body",
-          "description": "Optional project scope for the download"
-        },
-        {
-          "name": "ttl",
-          "type": "int",
-          "location": "body",
-          "description": "URL time-to-live in seconds"
-        },
-        {
-          "name": "use_pdf",
-          "type": "bool",
-          "location": "body",
-          "description": "Download as PDF instead of original format"
-        }
-      ]
-    },
-    {
-      "name": "folders_contents_get-folder",
-      "description": "Returns the contents (files and subfolders) of a specific folder. Required: folder_id. Optional: offset (default: 0), limit (default: 100).",
-      "method": "GET",
-      "path": "/api/v1/folders/{folder_id}/contents",
-      "params": [
-        {
-          "name": "folder_id",
+          "name": "question_id",
           "type": "string",
           "location": "path",
-          "description": "Folder id",
-          "required": true
-        },
-        {
-          "name": "offset",
-          "type": "int",
-          "location": "query",
-          "description": "Offset"
-        },
-        {
-          "name": "limit",
-          "type": "int",
-          "location": "query",
-          "description": "Limit"
-        }
-      ]
-    },
-    {
-      "name": "folders_tree_get-folder",
-      "description": "Returns the full folder tree starting from a specific folder. Required: folder_id.",
-      "method": "GET",
-      "path": "/api/v1/folders/{folder_id}/tree",
-      "params": [
-        {
-          "name": "folder_id",
-          "type": "string",
-          "location": "path",
-          "description": "Folder id",
+          "description": "Question id",
           "required": true
         }
       ]
     },
     {
-      "name": "global_search_search-global",
-      "description": "Full-text search across all accessible projects. Required: q. Optional: offset (default: 0), limit (default: 50). Returns the SearchResults.",
-      "method": "GET",
-      "path": "/api/v1/search",
-      "params": [
-        {
-          "name": "q",
-          "type": "string",
-          "location": "query",
-          "description": "Q",
-          "required": true
-        },
-        {
-          "name": "offset",
-          "type": "int",
-          "location": "query",
-          "description": "Offset"
-        },
-        {
-          "name": "limit",
-          "type": "int",
-          "location": "query",
-          "description": "Limit"
-        }
-      ]
-    },
-    {
-      "name": "project_search_search-project",
-      "description": "Full-text search within a specific project's documents and files. Required: project_id, q. Optional: offset (default: 0), limit (default: 50). Returns the SearchResults.",
-      "method": "GET",
-      "path": "/api/v1/projects/{project_id}/search",
-      "params": [
-        {
-          "name": "project_id",
-          "type": "string",
-          "location": "path",
-          "description": "Project id",
-          "required": true
-        },
-        {
-          "name": "q",
-          "type": "string",
-          "location": "query",
-          "description": "Search query string",
-          "required": true
-        },
-        {
-          "name": "offset",
-          "type": "int",
-          "location": "query",
-          "description": "Offset"
-        },
-        {
-          "name": "limit",
-          "type": "int",
-          "location": "query",
-          "description": "Limit"
-        }
-      ]
-    },
-    {
-      "name": "projects_list",
-      "description": "Returns all projects the authenticated user has access to.",
-      "method": "GET",
-      "path": "/api/v1/projects",
-      "params": []
-    },
-    {
-      "name": "projects_members_list-project",
-      "description": "Returns all members of a specific project. Required: project_id.",
-      "method": "GET",
-      "path": "/api/v1/projects/{project_id}/members",
-      "params": [
-        {
-          "name": "project_id",
-          "type": "string",
-          "location": "path",
-          "description": "Project id",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "queries_submit-query",
-      "description": "Submit a legal research or document analysis query in Genius Mode. The query is processed asynchronously; poll status for completion. Required: query. Optional: file_ids, folder_ids, mode (default: research) (plus 1 more). Returns the new QuerySubmitResponse.",
+      "name": "chats_create",
+      "description": "Submits a query and returns the chat and question ids. The answer is produced asynchronously — poll `GET /chats/{chatId}` for the result. Required: chat_id, prompt. Optional: file_ids (default: []), folder_ids (default: []), mode (default: [auto]) (plus 4 more).",
       "method": "POST",
-      "path": "/api/v1/queries",
+      "path": "/chats",
       "params": [
+        {
+          "name": "chat_id",
+          "type": "string",
+          "location": "body",
+          "description": "Chat id",
+          "required": true
+        },
         {
           "name": "file_ids",
           "type": "string_csv_array",
           "location": "body",
-          "description": "File/document IDs to include in the query context"
+          "description": "File ids"
         },
         {
           "name": "folder_ids",
           "type": "string_csv_array",
           "location": "body",
-          "description": "Folder IDs to scope the query to"
+          "description": "Folder ids"
         },
         {
           "name": "mode",
-          "type": "string",
+          "type": "string_csv_array",
           "location": "body",
-          "description": "Query processing mode"
+          "description": "Mode"
+        },
+        {
+          "name": "playbook_ids",
+          "type": "string_csv_array",
+          "location": "body",
+          "description": "Playbook ids"
         },
         {
           "name": "project_id",
           "type": "string",
           "location": "body",
-          "description": "Project ID to scope the query to"
+          "description": "Project id"
         },
+        {
+          "name": "prompt",
+          "type": "string",
+          "location": "body",
+          "description": "Prompt",
+          "required": true
+        },
+        {
+          "name": "tabular_review_ids",
+          "type": "string_csv_array",
+          "location": "body",
+          "description": "Tabular review ids"
+        },
+        {
+          "name": "workflow_name",
+          "type": "string",
+          "location": "body",
+          "description": "Workflow name"
+        }
+      ]
+    },
+    {
+      "name": "chats_delete",
+      "description": "Permanently deletes a chat and all its messages (FK cascade). Caller must be the chat owner. Irreversible. Required: chatId. Returns the ChatsDeleteResponse. Destructive.",
+      "method": "DELETE",
+      "path": "/chats/{chatId}",
+      "params": [
+        {
+          "name": "chatId",
+          "type": "string",
+          "location": "path",
+          "description": "Chat id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "chats_list",
+      "description": "List chats. Optional: limit (default: 20), cursor, projectId (plus 5 more). Returns array of ChatsListItem.",
+      "method": "GET",
+      "path": "/chats",
+      "params": [
+        {
+          "name": "limit",
+          "type": "int",
+          "location": "query",
+          "description": "Limit"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "Cursor"
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "query",
+          "description": "Project id"
+        },
+        {
+          "name": "search",
+          "type": "string",
+          "location": "query",
+          "description": "Search"
+        },
+        {
+          "name": "chatTypes",
+          "type": "array",
+          "location": "query",
+          "description": "Chat types"
+        },
+        {
+          "name": "modes",
+          "type": "array",
+          "location": "query",
+          "description": "Modes"
+        },
+        {
+          "name": "minutesAgo",
+          "type": "int",
+          "location": "query",
+          "description": "Minutes ago"
+        },
+        {
+          "name": "tagIds",
+          "type": "array",
+          "location": "query",
+          "description": "Tag ids"
+        }
+      ]
+    },
+    {
+      "name": "chats_question-files",
+      "description": "Lists work-product documents generated by a genius-mode question (genius_outputs folders). Required: questionId. Returns array of ChatsQuestionFilesItem.",
+      "method": "GET",
+      "path": "/chats/questions/{questionId}/files",
+      "params": [
+        {
+          "name": "questionId",
+          "type": "string",
+          "location": "path",
+          "description": "Question id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "chats_question-result",
+      "description": "Returns the answer, follow-up questions, and citation ids for a completed question. Citation excerpt resolution (doc name/text) is not yet available. Required: questionId.",
+      "method": "GET",
+      "path": "/chats/questions/{questionId}/result",
+      "params": [
+        {
+          "name": "questionId",
+          "type": "string",
+          "location": "path",
+          "description": "Question id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "chats_question-status",
+      "description": "Polls the status of a submitted question, with a lightweight step-count progress signal. Required: questionId. Returns the ChatsQuestionStatusResponse.",
+      "method": "GET",
+      "path": "/chats/questions/{questionId}/status",
+      "params": [
+        {
+          "name": "questionId",
+          "type": "string",
+          "location": "path",
+          "description": "Question id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "chats_rename",
+      "description": "Renames a chat. Caller must be the chat owner. Required: chatId, name. Returns the updated ChatsRenameResponse.",
+      "method": "PATCH",
+      "path": "/chats/{chatId}",
+      "params": [
+        {
+          "name": "chatId",
+          "type": "string",
+          "location": "path",
+          "description": "Chat id",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "content_search_search-content",
+      "description": "Full-text (BM25) search across the parsed text of documents the caller can access. Scope with folderIds and/or docIds; returns matching chunks with highlighted snippets. Required: q. Optional: docIds (default: []), folderIds (default: []), projectId (plus 1 more).",
+      "method": "POST",
+      "path": "/search/content",
+      "params": [
+        {
+          "name": "docIds",
+          "type": "string_csv_array",
+          "location": "body",
+          "description": "Doc ids"
+        },
+        {
+          "name": "folderIds",
+          "type": "string_csv_array",
+          "location": "body",
+          "description": "Folder ids"
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "body",
+          "description": "Project id"
+        },
+        {
+          "name": "q",
+          "type": "string",
+          "location": "body",
+          "description": "Q",
+          "required": true
+        },
+        {
+          "name": "topK",
+          "type": "int",
+          "location": "body",
+          "description": "Top k"
+        }
+      ]
+    },
+    {
+      "name": "files_content_documents-get",
+      "description": "Returns the parsed text of a document as ordered chunks. Paginate with startChunkIndex/limit; re-call with startChunkIndex = endChunkIndex + 1 while hasMore is true. Required: docId. Optional: startChunkIndex (default: 0), limit (default: 100), projectId.",
+      "method": "GET",
+      "path": "/files/{docId}/content",
+      "params": [
+        {
+          "name": "docId",
+          "type": "string",
+          "location": "path",
+          "description": "Doc id",
+          "required": true
+        },
+        {
+          "name": "startChunkIndex",
+          "type": "int",
+          "location": "query",
+          "description": "Start chunk index"
+        },
+        {
+          "name": "limit",
+          "type": "int",
+          "location": "query",
+          "description": "Limit"
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "query",
+          "description": "Project id"
+        }
+      ]
+    },
+    {
+      "name": "files_download-url_documents-get-presigned-url",
+      "description": "Get a document download URL. Required: docId. Optional: usePdf (default: false), ttl (default: 3600). Returns the DownloadUrlDocumentsGetPresignedUrlResponse.",
+      "method": "GET",
+      "path": "/files/{docId}/download-url",
+      "params": [
+        {
+          "name": "docId",
+          "type": "string",
+          "location": "path",
+          "description": "Doc id",
+          "required": true
+        },
+        {
+          "name": "usePdf",
+          "type": "bool",
+          "location": "query",
+          "description": "Use pdf"
+        },
+        {
+          "name": "ttl",
+          "type": "float",
+          "location": "query",
+          "description": "Ttl"
+        }
+      ]
+    },
+    {
+      "name": "folders_create",
+      "description": "Three positioning modes: subfolder (parentId), project root (projectId), or personal root (neither). Caller becomes owner. Required: name. Optional: description, parentId, projectId. Returns the new FoldersCreateResponse.",
+      "method": "POST",
+      "path": "/folders",
+      "params": [
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        },
+        {
+          "name": "parentId",
+          "type": "string",
+          "location": "body",
+          "description": "Parent id"
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "body",
+          "description": "Project id"
+        }
+      ]
+    },
+    {
+      "name": "folders_delete",
+      "description": "Soft-deletes one or more folders and their whole subtrees (owner-only). folderIds serialize as repeated query params. Required: folderIds. Returns the FoldersDeleteResponse. Destructive.",
+      "method": "DELETE",
+      "path": "/folders",
+      "params": [
+        {
+          "name": "folderIds",
+          "type": "array",
+          "location": "query",
+          "description": "Folder ids",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "folders_list",
+      "description": "Folders (alphabetical) then files (paginated by cursor/limit). Omit parentFolderId (null) for the personal/project root. All inputs are optional query params; arrays (filterTagIds) serialize as repeated query params. Returns items[] plus total_folders, total_files, nextCursor. Optional: projectId, parentFolderId, cursor (plus 6 more).",
+      "method": "GET",
+      "path": "/folders/contents",
+      "params": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "query",
+          "description": "Project id"
+        },
+        {
+          "name": "parentFolderId",
+          "type": "string",
+          "location": "query",
+          "description": "Parent folder id"
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "location": "query",
+          "description": "Cursor"
+        },
+        {
+          "name": "limit",
+          "type": "int",
+          "location": "query",
+          "description": "Limit"
+        },
+        {
+          "name": "sortBy",
+          "type": "string",
+          "location": "query",
+          "description": "Sort by"
+        },
+        {
+          "name": "sortDesc",
+          "type": "bool",
+          "location": "query",
+          "description": "Sort desc"
+        },
+        {
+          "name": "filterTagIds",
+          "type": "array",
+          "location": "query",
+          "description": "Filter tag ids"
+        },
+        {
+          "name": "includeFiles",
+          "type": "bool",
+          "location": "query",
+          "description": "Include files"
+        },
+        {
+          "name": "includeTags",
+          "type": "bool",
+          "location": "query",
+          "description": "Include tags"
+        }
+      ]
+    },
+    {
+      "name": "folders_tree_folder",
+      "description": "Returns the recursive folder hierarchy rooted at folderId. Caller must have read access to the folder. Required: folderId.",
+      "method": "GET",
+      "path": "/folders/{folderId}/tree",
+      "params": [
+        {
+          "name": "folderId",
+          "type": "string",
+          "location": "path",
+          "description": "Folder id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "pre-share-policies_pre-shares-create-policy",
+      "description": "Create a pre-share policy. Required: artifacts, backfillExistingUsers, conditionType, conditionValue, deliveryMode, destinationType, isEnabled, name, permissionLevel, targetProjectId. Returns array of PreSharePoliciesPreSharesCreatePolicyItem.",
+      "method": "POST",
+      "path": "/pre-share-policies",
+      "params": [
+        {
+          "name": "artifacts",
+          "type": "array",
+          "location": "body",
+          "description": "Artifacts",
+          "required": true
+        },
+        {
+          "name": "backfillExistingUsers",
+          "type": "bool",
+          "location": "body",
+          "description": "Backfill existing users",
+          "required": true
+        },
+        {
+          "name": "conditionType",
+          "type": "string",
+          "location": "body",
+          "description": "Condition type",
+          "required": true
+        },
+        {
+          "name": "conditionValue",
+          "type": "string",
+          "location": "body",
+          "description": "Condition value",
+          "required": true
+        },
+        {
+          "name": "deliveryMode",
+          "type": "string",
+          "location": "body",
+          "description": "Delivery mode",
+          "required": true
+        },
+        {
+          "name": "destinationType",
+          "type": "string",
+          "location": "body",
+          "description": "Destination type",
+          "required": true
+        },
+        {
+          "name": "isEnabled",
+          "type": "bool",
+          "location": "body",
+          "description": "Is enabled",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        },
+        {
+          "name": "permissionLevel",
+          "type": "string",
+          "location": "body",
+          "description": "Permission level",
+          "required": true
+        },
+        {
+          "name": "targetProjectId",
+          "type": "string",
+          "location": "body",
+          "description": "Target project id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "pre-share-policies_pre-shares-delete-policy",
+      "description": "Delete a pre-share policy. Required: policyId. Returns the PreSharePoliciesPreSharesDeletePolicyResponse. Destructive.",
+      "method": "DELETE",
+      "path": "/pre-share-policies/{policyId}",
+      "params": [
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Policy id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "pre-share-policies_pre-shares-get-policy",
+      "description": "Get a pre-share policy. Required: policyId. Returns array of PreSharePoliciesPreSharesGetPolicyItem.",
+      "method": "GET",
+      "path": "/pre-share-policies/{policyId}",
+      "params": [
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Policy id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "pre-share-policies_pre-shares-list-policies",
+      "description": "List pre-share policies. Returns array of PreSharePoliciesPreSharesListPoliciesItem.",
+      "method": "GET",
+      "path": "/pre-share-policies",
+      "params": []
+    },
+    {
+      "name": "pre-share-policies_pre-shares-toggle-policy-enabled",
+      "description": "Enable or disable a pre-share policy. Required: policyId, isEnabled. Returns array of PreSharePoliciesPreSharesTogglePolicyEnabledItem.",
+      "method": "PATCH",
+      "path": "/pre-share-policies/{policyId}",
+      "params": [
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Policy id",
+          "required": true
+        },
+        {
+          "name": "isEnabled",
+          "type": "bool",
+          "location": "body",
+          "description": "Is enabled",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "pre-share-policies_revert_pre-shares-policy",
+      "description": "Revert applied deliveries for a pre-share policy. Required: policyId, confirm. Returns the new RevertPreSharesPolicyResponse.",
+      "method": "POST",
+      "path": "/pre-share-policies/{policyId}/revert",
+      "params": [
+        {
+          "name": "policyId",
+          "type": "string",
+          "location": "path",
+          "description": "Policy id",
+          "required": true
+        },
+        {
+          "name": "confirm",
+          "type": "bool",
+          "location": "body",
+          "description": "Confirm",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "projects_create",
+      "description": "Creates a new project owned by the caller. The caller is added as the project owner. Required: name. Optional: clientNum, description, intelligencePrompt (plus 2 more). Returns the new ProjectsCreateResponse.",
+      "method": "POST",
+      "path": "/projects",
+      "params": [
+        {
+          "name": "clientNum",
+          "type": "string",
+          "location": "body",
+          "description": "Client num"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "location": "body",
+          "description": "Description"
+        },
+        {
+          "name": "intelligencePrompt",
+          "type": "string",
+          "location": "body",
+          "description": "Intelligence prompt"
+        },
+        {
+          "name": "matterNum",
+          "type": "string",
+          "location": "body",
+          "description": "Matter num"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        },
+        {
+          "name": "sharingEnabled",
+          "type": "bool",
+          "location": "body",
+          "description": "Sharing enabled"
+        }
+      ]
+    },
+    {
+      "name": "projects_delete",
+      "description": "Permanently deletes a project and its resource links (chats and folders survive as personal resources). Destructive and irreversible; pass confirm=true. Required: projectId. Optional: confirm (default: false). Returns the ProjectsDeleteResponse.",
+      "method": "DELETE",
+      "path": "/projects/{projectId}",
+      "params": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "path",
+          "description": "Project id",
+          "required": true
+        },
+        {
+          "name": "confirm",
+          "type": "bool",
+          "location": "query",
+          "description": "Confirm"
+        }
+      ]
+    },
+    {
+      "name": "projects_list",
+      "description": "Returns every project the authenticated user can access, most recently updated first.",
+      "method": "GET",
+      "path": "/projects",
+      "params": []
+    },
+    {
+      "name": "projects_rename",
+      "description": "Renames a project. Caller must be the project owner. Required: projectId, name. Returns the updated ProjectsRenameResponse.",
+      "method": "PATCH",
+      "path": "/projects/{projectId}",
+      "params": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "path",
+          "description": "Project id",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "location": "body",
+          "description": "Name",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "projects_folders_projects-root",
+      "description": "Lists the top-level folders (data sources) the project is anchored to. Caller must be a project member. Required: projectId. Returns array of FoldersProjectsRootItem.",
+      "method": "GET",
+      "path": "/projects/{projectId}/folders",
+      "params": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "path",
+          "description": "Project id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "projects_members_projects",
+      "description": "Returns every member of the project with their permission level. Caller must be a project member. Required: projectId.",
+      "method": "GET",
+      "path": "/projects/{projectId}/members",
+      "params": [
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "path",
+          "description": "Project id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "search_resource_folder-search",
+      "description": "Name search across the accessible folder tree. Pass projectId (optional query param) to scope to a project; omit for the caller's personal workspace. Returns a flat array of folder/file hits. Required: query. Optional: projectId, scope (default: folders), parentFolderId.",
+      "method": "GET",
+      "path": "/search",
+      "params": [
         {
           "name": "query",
           "type": "string",
+          "location": "query",
+          "description": "Query",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "location": "query",
+          "description": "Project id"
+        },
+        {
+          "name": "scope",
+          "type": "string",
+          "location": "query",
+          "description": "Scope"
+        },
+        {
+          "name": "parentFolderId",
+          "type": "string",
+          "location": "query",
+          "description": "Parent folder id"
+        }
+      ]
+    },
+    {
+      "name": "workflows_create-from-prompt",
+      "description": "Generates a runnable workflow draft from a natural-language prompt and saves it. Reuse idempotencyKey to dedupe retries. Trigger provisioning is best-effort — failures return in triggerWarnings. Required: prompt. Optional: idempotencyKey, projectId. Returns array of string.",
+      "method": "POST",
+      "path": "/workflows",
+      "params": [
+        {
+          "name": "idempotencyKey",
+          "type": "string",
           "location": "body",
-          "description": "The natural language or structured query",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "queries_files_get-query",
-      "description": "Retrieve files generated by a completed query. Required: query_id. Returns the QueryFiles.",
-      "method": "GET",
-      "path": "/api/v1/queries/{query_id}/files",
-      "params": [
+          "description": "Idempotency key"
+        },
         {
-          "name": "query_id",
+          "name": "projectId",
           "type": "string",
-          "location": "path",
-          "description": "Query id",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "queries_result_get-query",
-      "description": "Retrieve the completed result of a processed query. Required: query_id. Returns the QueryResult.",
-      "method": "GET",
-      "path": "/api/v1/queries/{query_id}/result",
-      "params": [
+          "location": "body",
+          "description": "Project id"
+        },
         {
-          "name": "query_id",
+          "name": "prompt",
           "type": "string",
-          "location": "path",
-          "description": "Query id",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "queries_status_get-query",
-      "description": "Poll the processing status of a submitted query. Required: query_id. Returns the QueryStatus.",
-      "method": "GET",
-      "path": "/api/v1/queries/{query_id}/status",
-      "params": [
-        {
-          "name": "query_id",
-          "type": "string",
-          "location": "path",
-          "description": "Query id",
+          "location": "body",
+          "description": "Prompt",
           "required": true
         }
       ]

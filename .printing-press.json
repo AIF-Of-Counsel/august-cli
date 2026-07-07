@@ -1,24 +1,30 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-28T03:02:20.448291Z",
-  "printing_press_version": "4.18.1",
+  "generated_at": "2026-07-06T19:52:01.101884Z",
+  "printing_press_version": "4.24.0",
   "api_name": "august",
   "display_name": "August",
   "cli_name": "august-pp-cli",
-  "owner": "vera",
-  "printer": "vera-clawbot",
-  "printer_name": "Vera",
-  "spec_path": "SPEC.md",
+  "creator": {
+    "handle": "JustlyAI",
+    "name": "justlyai"
+  },
+  "owner": "justlyai",
+  "printer": "JustlyAI",
+  "printer_name": "justlyai",
+  "spec_url": "https://app.august.law/api/v1/openapi.json",
+  "spec_path": "spec.json",
   "spec_format": "openapi3",
-  "spec_checksum": "sha256:a8cd445de635f22b86194389d2bb1702131bf0692c4ff81d419e4887fe463256",
-  "run_id": "20260528-030220",
-  "description": "The August API provides programmatic access to legal document intelligence and research workflows.",
+  "spec_checksum": "sha256:d705f21992fdd9bfcea0a789c9da6e85e2252cb9a389a58ba9d1825c11a57b61",
+  "run_id": "20260706-195201",
+  "description": "Programmatic access to August. Authenticate every request with a Clerk API key: `Authorization: Bearer ak_...`.",
   "mcp_binary": "august-pp-mcp",
-  "mcp_tool_count": 11,
+  "mcp_tool_count": 30,
   "mcp_ready": "full",
   "api_version": "1.0.0",
   "auth_type": "bearer_token",
+  "auth_preference": "Authorization",
   "auth_env_vars": [
-    "AUGUST_BEARER_AUTH"
+    "AUGUST_AUTHORIZATION"
   ]
 }
